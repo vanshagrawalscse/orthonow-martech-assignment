@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrthoNow — Expert Orthopaedic Consultation</title>
+    
+    <style>
+        :root {
+            --bg-dark: #09090b;
+            --card-dark: #141417;
+            --accent-blue: #2563eb;
+            --accent-purple: #7c3aed;
+            --text-main: #fafafa;
+            --text-muted: #a1a1aa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+       
+        .grid-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            z-index: 10;
+        }
+
+      
+        .main-card {
+            background: var(--card-dark);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6),
+                        0 0 40px 0 rgba(124, 58, 237, 0.15);
+            text-align: center;
+            backdrop-filter: blur(12px);
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.1), rgba(124, 58, 237, 0.1));
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            color: #c084fc;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 0.05em;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 40%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subheader {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 28px;
+        }
+
+        .clinic-vector-img {
+            width: 100%;
+            height: 160px;
+            background-color: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            margin-bottom: 24px;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .error-msg {
+            color: #ef4444;
+            font-size: 0.8rem;
+            margin-top: 6px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .cta-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.1s ease, opacity 0.2s ease;
+            box-shadow: 0 4px 14px 0 rgba(124, 58, 237, 0.3);
+            margin-top: 6px;
+        }
+
+        .cta-btn:hover {
+            opacity: 0.95;
+        }
+
+        .cta-btn:active {
+            transform: scale(0.98);
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 18px;
+        }
+
+        .trust-icon {
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        
+        .thank-you-state {
+            display: none;
+            animation: easeFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes easeFadeIn {
+            from { opacity: 0; transform: scale(0.98) translateY(8px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .success-checkmark {
+            width: 56px;
+            height: 56px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 2px solid #22c55e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+            color: #22c55e;
+            font-size: 1.75rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-bg"></div>
+
+    <div class="container">
+        <div class="main-card">
+            
+            <div id="form-container">
+                <span class="header-badge">🚀 CAMPAIGN OFFER</span>
+                <h1>Get an Expert Orthopaedic Opinion</h1>
+                <p class="subheader">Book your consultation with elite bone & joint specialists at OrthoNow.</p>
+                
+                <div class="clinic-vector-img">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                    </svg>
+                </div>
+                
+                <form id="consultation-form" novalidate>
+                    <div class="form-group">
+                        <label for="patient-name">Patient Full Name</label>
+                        <input type="text" id="patient-name" placeholder="e.g. John Doe" required autocomplete="name">
+                        <div class="error-msg" id="name-error">Please enter a valid full name.</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="patient-phone">Direct Mobile Number</label>
+                        <input type="tel" id="patient-phone" placeholder="e.g. 9876543210" required autocomplete="tel">
+                        <div class="error-msg" id="phone-error">Please provide a valid 10-digit mobile number.</div>
+                    </div>
+                    
+                    <button type="submit" class="cta-btn">Confirm Consultation Booking</button>
+                </form>
+
+                <div class="trust-badge">
+                    <span class="trust-icon">✓</span> <span>9-Clinic Healthcare Network Across South India</span>
+                </div>
+            </div>
+
+            <div id="thank-you-container" class="thank-you-state">
+                <div class="success-checkmark">✓</div>
+                <h2>Booking Request Logged!</h2>
+                <p class="subheader" style="margin-bottom: 0; margin-top: 12px;">The dataLayer payload fired successfully. Our case manager will reach out within 15 minutes to coordinate your clinic visit schedule.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('consultation-form').addEventListener('submit', function(event) {
+            // Prevent standard form tracking from triggering a hard page refresh
+            event.preventDefault();
+            
+            const clientName = document.getElementById('patient-name');
+            const clientPhone = document.getElementById('patient-phone');
+            const nameFeedback = document.getElementById('name-error');
+            const phoneFeedback = document.getElementById('phone-error');
+            
+            let passesValidation = true;
+            
+           
+            if (clientName.value.trim().length < 2) {
+                nameFeedback.style.display = 'block';
+                passesValidation = false;
+            } else {
+                nameFeedback.style.display = 'none';
+            }
+            
+           
+            const regexMobileSchema = /^[6-9]\d{9}$/;
+            if (!regexMobileSchema.test(clientPhone.value.trim())) {
+                phoneFeedback.style.display = 'block';
+                passesValidation = false;
+            } else {
+                phoneFeedback.style.display = 'none';
+            }
+            
+            
+            if (passesValidation) {
+              
+                window.dataLayer = window.dataLayer || [];
+                
+                
+                window.dataLayer.push({
+                    'event': 'consultation_form_submitted',
+                    'lead_capture': {
+                        'form_identifier': 'orthonow_expert_opinion_form',
+                        'timestamp_iso': new Date().toISOString(),
+                        'client_browser_agent': navigator.userAgent
+                    }
+                });
+                
+               
+                document.getElementById('form-container').style.display = 'none';
+                document.getElementById('thank-you-container').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
